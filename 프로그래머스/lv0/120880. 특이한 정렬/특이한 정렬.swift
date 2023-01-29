@@ -2,7 +2,7 @@ import Foundation
 
 func solution(_ numlist:[Int], _ n:Int) -> [Int] {
     
-    var newArray:[Int] = numlist.map{$0 - n}.sorted {
+    let newArray:[Int] = numlist.map{$0 - n}.sorted {
         
         if abs($0) == abs($1) {
             return $0 > $1
