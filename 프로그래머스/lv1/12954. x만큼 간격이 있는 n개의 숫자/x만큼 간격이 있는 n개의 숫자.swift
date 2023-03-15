@@ -1,11 +1,10 @@
 func solution(_ x:Int, _ n:Int) -> [Int64] {
-    var intChanged = x
-    var answer: [Int64] = []
     
-    for i in 0..<n {
-        answer.append(Int64(intChanged))
-        intChanged += x
+    var answer = Array(repeating: x, count: n)
+    
+    for (index, value) in answer.enumerated(){
+        answer[index] = (index + 1) * value
     }
     
-    return answer
+    return answer.map{Int64($0)}
 }
