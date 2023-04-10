@@ -2,17 +2,8 @@ import Foundation
 
 func solution(_ s:String) -> Bool
 {
-    
-    var p = 0
-    var y = 0
-    
-    for i in s.lowercased() {
-        if i == "p" {
-            p += 1
-        } else if i == "y" {
-            y += 1
-        }
-    }
+    let p = s.lowercased().filter{$0 == "p"}.count
+    let y = s.lowercased().filter{$0 == "y"}.count
     
     return p == y ? true : false
 }
