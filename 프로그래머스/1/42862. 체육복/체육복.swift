@@ -1,27 +1,20 @@
 import Foundation
+
 func solution(_ n:Int, _ lost:[Int], _ reserve:[Int]) -> Int {
     
-    var reserve = reserve.sorted()
-    var lost = lost.sorted()
-    var answer = n - lost.count
+    var newReserve = reserve.filter { !lost.contains($0) }.sorted()
+    var newLost = lost.filter{ !reserve.contains($0) }.sorted()
+    var answer = newLost.count
     
-    for i in lost.sorted() {
-        if reserve.contains(i) {
-            reserve = reserve.filter{$0 != i}
-            lost = lost.filter{$0 != i}
-            answer += 1
+    for i in newLost.sorted() {
+        if newReserve.contains(i - 1) {
+            newReserve = newReserve.filter{$0 != i - 1}
+            answer -= 1
+        } else if newReserve.contains(i + 1) {
+            newReserve = newReserve.filter{$0 != i + 1}
+            answer -= 1
         }
     }
     
-    for i in lost.sorted() {        
-        if reserve.contains(i - 1) {
-            reserve = reserve.filter{$0 != i - 1}
-            answer += 1
-        } else if reserve.contains(i + 1) {
-            reserve = reserve.filter{$0 != i + 1}
-            answer += 1
-        }
-    }
-    
-    return answer
+    return n - answer
 }
