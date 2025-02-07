@@ -1,32 +1,31 @@
-//2606 바이러스
-import Foundation
+let n = Int(readLine()!)!
+let m = Int(readLine()!)!
 
-let node = Int(readLine()!)!
-let edge = Int(readLine()!)!
+//정점의 갯수로 배열을 만듬
+var graph:[[Int]] = Array(repeating: [], count: n + 1)
+var visited = Array(repeating: false, count: n + 1)
+var answer = 0
 
-var graph: [Int:[Int]] = [:]
-var visited: [Int] = []
-for i in 1...node {
-    graph.updateValue([], forKey: i)
-}
-
-for _ in 1...edge {
-    let input = readLine()!.split { $0 == " " }.map { Int(String($0))! }
-    graph[input[0]]?.append(input[1])
-    graph[input[1]]?.append(input[0])
-}
-
-func dfs(_ node: Int) {
-    if visited.contains(node) {
-        return
-    }
+for _ in 0..<m {
+    let input = readLine()!.split(separator: " ").map{Int(String($0))!}
+    let a = input[0]
+    let b = input[1]
     
-    visited.append(node)
-    for node in graph[node]! {
-        dfs(node)
-    }
+    graph[a].append(b)
+    graph[b].append(a)
 }
 
-dfs(1)
+func dfs(_ v: Int) -> Int {
+    visited[v] = true
+    answer += 1
+    
+    for i in graph[v] {
+        if !visited[i] {
+            dfs(i)
 
-print(visited.count - 1)
+        }
+    }
+    return answer
+}
+
+print(dfs(1) - 1)
