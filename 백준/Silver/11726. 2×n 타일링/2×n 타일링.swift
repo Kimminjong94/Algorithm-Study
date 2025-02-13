@@ -1,11 +1,24 @@
-func solution() {
-    let cnt = Int(readLine()!)!
-    var dp = Array(repeating: 0, count: cnt+2)
-    dp[0] = 1
-    dp[1] = 1
-    for i in 2..<cnt + 1 {
-        dp[i] = (dp[i-1] + dp[i-2]) % 10007
+let N = Int(readLine()!)!
+var dp = Array(repeating: 0, count: 1001)
+
+func solution(_ n: Int) -> Int {
+    if n < 2 {
+        return 1
     }
-    print(dp[cnt])
+    
+    if n < 3 {
+        return 2
+    }
+    
+    dp[1] = 1
+    dp[2] = 2
+    
+    for i in 3...N {
+        dp[i] = (dp[i - 1] + dp[i - 2]) % 10007
+    }
+    
+    return dp[n]
+   
 }
-solution()
+
+print(solution(N))
