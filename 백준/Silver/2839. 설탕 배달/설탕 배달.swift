@@ -1,21 +1,11 @@
-func solution() -> Int{
-    var n = Int(readLine()!)!
-    var result = 0
-    
-    if n % 5 == 0{
-        return n / 5
-    }
-    
-    while (n >= 0){
-        n -= 3
-        result += 1
-        if n % 5 == 0{
-            return result + (n / 5)
-        }
-    }
-    
-    
-    return -1
+let n = Int(readLine()!)!
+var dp = Array(repeating: 5001, count: 5001)
+
+dp[3] = 1
+dp[5] = 1
+
+for i in 6...5000 {
+    dp[i] = min(dp[i - 3], dp[i - 5]) + 1
 }
 
-print(solution())
+print(dp[n] > 5000 ? -1 : dp[n])
