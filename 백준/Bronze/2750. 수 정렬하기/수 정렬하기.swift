@@ -1,21 +1,11 @@
 let n = Int(readLine()!)!
-var arr: [Int] = []
+var numbers:[Int] = []
 
 for _ in 0..<n {
-    arr.append(Int(readLine()!)!)
-    
+    let input = Int(readLine()!)!
+    numbers.append(input)
 }
 
-for i in 0..<n {
-    for j in i + 1..<n {
-        if arr[i] > arr[j] {
-            let temp = arr[i]
-            arr[i] = arr[j]
-            arr[j] = temp
-        }
-    }
-}
-
-for k in 0..<n {
-    print("\(arr[k])")
+for i in numbers.sorted() {
+    print(i)
 }
