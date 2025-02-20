@@ -1,15 +1,11 @@
-func solution() -> Int{
-    let n = Int(readLine()!)!
-    var people = readLine()!.split(separator: " ").map({Int($0)!})
-    people = people.sorted()
-    
-    var result = 0
-    
-    for (index, value) in people.enumerated(){
-        result += (value * (n - index))
-    }
-    
-    return result
+let n = Int(readLine()!)!
+var numbers = readLine()!.split(separator: " ").map{Int($0)!}.sorted()
+var dp = Array(repeating: 0, count: n)
+
+dp[0] = numbers[0]
+
+for i in 1..<numbers.count {
+    dp[i] = dp[i - 1] + numbers[i]
 }
 
-print(solution())
+print(dp.reduce(0, +))
