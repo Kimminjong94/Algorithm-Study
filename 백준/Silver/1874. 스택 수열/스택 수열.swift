@@ -1,25 +1,23 @@
 import Foundation
 
 let n = Int(readLine()!)!
-
+var order:[Int] = []
 var count = 1
-var stack: [Int] = []
-var answer: [String] = []
 
+var answerArray:[String] = []
 
 for _ in 0..<n {
+    let input = Int(readLine()!)!
     
-    let num = Int(readLine()!)!
-    
-    while count <= num {
-        stack.append(count)
-        answer.append("+")
+    while count <= input {
+        order.append(count)
+        answerArray.append("+")
         count += 1
     }
     
-    if stack.last == num {
-        stack.popLast()
-        answer.append("-")
+    if order.last == input {
+        order.popLast()
+        answerArray.append("-")
     } else {
         print("NO")
         exit(0)
@@ -27,4 +25,6 @@ for _ in 0..<n {
     
 }
 
-print(answer.joined(separator: "\n"))
+
+
+print(answerArray.joined(separator: "\n"))
