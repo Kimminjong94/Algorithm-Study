@@ -1,3 +1,5 @@
+
+
 let n = Int(readLine()!)!
 var nArr = readLine()!.split(separator: " ").map{Int(String($0))!}
 
