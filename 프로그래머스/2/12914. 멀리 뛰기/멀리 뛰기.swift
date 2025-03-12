@@ -1,15 +1,15 @@
 func solution(_ n:Int) -> Int64 {
+    guard n != 1 else {return 1}
+    guard n != 2 else {return 2}
     
-    // 한칸씩은 무조건 갈 수 있으니깐 1부터 카운트 시작
-   var result = [1, 2]
-    var i = 0
+    var dp = Array(repeating: 0, count: n)
     
+    dp[0] = 1
+    dp[1] = 2
     
-    while result.count < n {
-        result.append((result[i] + result[i + 1]) % 1234567)
-        i += 1
+    for i in 2..<n {
+        dp[i] = (dp[i - 2] + dp[i - 1]) % 1234567
     }
     
-    return Int64(result[n-1])
-    
+    return Int64(dp[n - 1])
 }
