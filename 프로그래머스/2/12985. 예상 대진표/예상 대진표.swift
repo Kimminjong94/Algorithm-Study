@@ -1,26 +1,21 @@
 import Foundation
 
-func solution(_ n:Int, _ a:Int, _ b:Int) -> Int
-{
-    
-    var answer = 0
-    var newA = a
-    var newB = b
-    
-    while newA != newB {
-        if newA % 2 != 0 {
-            newA += 1
+func solution(_ n:Int, _ a:Int, _ b:Int) -> Int {
+    var round = 1
+    var playerA = a
+    var playerB = b
+
+    while true {
+       
+        playerA = (playerA + 1) / 2
+        playerB = (playerB + 1) / 2
+
+        if playerA == playerB {
+            break
         }
-        
-        if newB % 2 != 0 {
-            newB += 1
-        }
-        
-        newA = newA / 2
-        newB = newB / 2
-        
-        answer += 1
-        
+
+        round += 1
     }
-    return answer
+
+    return round
 }
