@@ -1,17 +1,18 @@
 import Foundation
 
-func solution(_ elements:[Int]) -> Int {
+func solution(_ elements: [Int]) -> Int {
+    let n = elements.count
+    var resultSet = Set<Int>()
+    let doubledElements = elements + elements
     
-    var result : Set = Set(elements)
-    
-    for i in 0..<elements.count {
-        var sum = 0
-        for j in 0..<elements.count {
-            
-            var index = i + j >= elements.count ? (i + j) - elements.count : i + j
-            sum += elements[index]
-            result.insert(sum)
+    for length in 1...n {
+        var sum = doubledElements[0..<length].reduce(0, +)
+        resultSet.insert(sum)
+        
+        for start in 1..<n {
+            sum = sum - doubledElements[start - 1] + doubledElements[start + length - 1]
+            resultSet.insert(sum)
         }
     }
-    return result.count
+    return resultSet.count
 }
