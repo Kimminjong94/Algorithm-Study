@@ -1,3 +1,4 @@
+
 let input = readLine()!
 let inputArr = input.split(separator: " ")
 let a = Int(inputArr[0])!
