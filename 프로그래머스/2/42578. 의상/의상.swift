@@ -1,20 +1,15 @@
 import Foundation
 
-func solution(_ clothes:[[String]]) -> Int {
+func solution(_ clothes: [[String]]) -> Int {
+    var dict: [String: Int] = [:]
     
-    var count = 1
-    var dic: [String:Int] = [:]
-    
-    for cloth in clothes {
-        dic[cloth[1], default: 0] += 1
+    for item in clothes {
+        let type = item[1]
+        dict[type, default: 0] += 1
     }
     
-    print(dic)
+    let combinations = dict.values.map { $0 + 1 }.reduce(1, *)
     
-    for i in dic.values {
-        count *= (i + 1)
-    }
-    
-    
-    return count - 1
+    // 아무것도 안 입는 경우는 제외
+    return combinations - 1
 }
