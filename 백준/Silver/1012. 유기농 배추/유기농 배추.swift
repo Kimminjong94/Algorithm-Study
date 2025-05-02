@@ -1,51 +1,49 @@
-import Foundation
+let T = Int(readLine()!)!
 
-let count = Int(readLine()!)!
+for _ in 0..<T {
+    let sizeInput = readLine()!.split(separator: " ").map { Int($0)! }
+    let M = sizeInput[0]
+    let N = sizeInput[1]
+    let K = sizeInput[2]
 
-var farmW = 0, farmH = 0
-var farm: [[Bool]] = []
+    var graph = Array(repeating: Array(repeating: 0, count: M), count: N)
+    var visited = Array(repeating: Array(repeating: false, count: M), count: N)
 
-let dx: [Int] = [0, 0, -1, 1]
-let dy: [Int] = [-1, 1, 0, 0]
-
-for _ in 0..<count {
-    //input
-    let input = readLine()!.split(separator: " ").map { Int(String($0))! }
-    farmW = input[0]
-    farmH = input[1]
-    let cabbageCount = input[2]
-    
-    farm = Array(repeating: Array(repeating: false, count: farmW), count: farmH)
-    for _ in 0..<cabbageCount {
-        let positions = readLine()!.split(separator: " ").map { Int(String($0))! }
-    
-        farm[positions[1]][positions[0]] = true
+    for _ in 0..<K {
+        let loc = readLine()!.split(separator: " ").map { Int($0)! }
+        let x = loc[0]
+        let y = loc[1]
+        graph[y][x] = 1
     }
-    
-    var count = 0
-    for y in 0..<farmH {
-        for x in 0..<farmW {
-            if farm[y][x] {
-                dfs(y: y, x: x)
-                count += 1
-            }
-        }
-    }
-    
-    print(count)
-}
 
-func dfs(y: Int, x: Int) {
-    if farm[y][x] {
-        farm[y][x] = false
-        
+    func dfs(_ x: Int, _ y: Int) {
+        let dx = [0, -1, 0, 1]
+        let dy = [1, 0, -1, 0]
+
+        visited[y][x] = true
+
         for i in 0..<4 {
-            let nextY = y + dy[i], nextX = x + dx[i]
-            if nextY >= 0 && nextY < farmH && nextX >= 0 && nextX < farmW {
-                if farm[y+dy[i]][x+dx[i]] {
-                    dfs(y: y+dy[i], x: x+dx[i])
+            let nx = x + dx[i]
+            let ny = y + dy[i]
+
+            if nx >= 0 && ny >= 0 && nx < M && ny < N {
+                if graph[ny][nx] == 1 && !visited[ny][nx] {
+                    dfs(nx, ny)
                 }
             }
         }
     }
+
+    var wormCount = 0
+
+    for y in 0..<N {
+        for x in 0..<M {
+            if graph[y][x] == 1 && !visited[y][x] {
+                dfs(x, y)
+                wormCount += 1
+            }
+        }
+    }
+
+    print(wormCount)
 }
