@@ -2,35 +2,34 @@ import Foundation
 
 func solution(_ progresses:[Int], _ speeds:[Int]) -> [Int] {
     
-    let leftPercent = progresses.map {100 - $0}
-    var leftDays: [Int] = []
-    
-    for (index, value) in leftPercent.enumerated() {
-        if value % speeds[index] == 0 {
-            leftDays.append(value/speeds[index])
+    let leftProcess = progresses.map{100 - $0}
+    let leftDays = leftProcess.enumerated().map { (index, value) -> Int in
+        let speed = speeds[index]
+        let remain = value
+        if remain % speed == 0 {
+            return remain / speed
         } else {
-            leftDays.append(value/speeds[index] + 1)
+            return remain / speed + 1
         }
     }
 
-    var answer: [Int] = []
-    var tmpCount = 0
-    var tmpAnswer = 0
-    
+    var maxDay = leftDays[0]
+    var dayCount = 0
+    var answer:[Int] = []
+        
     for i in leftDays {
-
-        if i > tmpAnswer {
-            tmpAnswer = i
-            if tmpCount != 0 {
-                answer.append(tmpCount)
-                tmpCount = 0
-            }
-            tmpCount += 1
+        if i > maxDay {
+            answer.append(dayCount)
+            maxDay = i
+            dayCount = 1
         } else {
-            tmpCount += 1
+            dayCount += 1
         }
     }
-    answer.append(tmpCount)
+    
+    
+    answer.append(dayCount)
+    
     return answer
 
 }
