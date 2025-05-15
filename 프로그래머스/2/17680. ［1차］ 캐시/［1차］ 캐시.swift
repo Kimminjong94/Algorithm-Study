@@ -1,24 +1,25 @@
-func solution(_ cacheSize:Int, _ cities:[String]) -> Int {
-    if cacheSize == 0 {
-        return 5 * cities.count
-    }
-    
-    var cities = cities.map{$0.lowercased()}
-    var cache:[String] = []
+import Foundation
+
+func solution(_ cacheSize: Int, _ cities: [String]) -> Int{
+    let tmp = cities.map{ $0.uppercased() }
     var count = 0
+    var cache = [String]()
     
-    for i in cities {
-        if cache.contains(i) {
+    for city in tmp{
+        if cache.contains(city){
             count += 1
-            cache.remove(at: cache.firstIndex(of: i)!)
-            cache.append(i)
-        } else if !cache.contains(i) {
+            
+            cache.remove(at: cache.firstIndex(of: city)!)
+            cache.append(city)
+        } else {
             count += 5
-            cache.append(i)
-            if cache.count > cacheSize {
+            cache.append(city)
+            if cache.count > cacheSize{
                 cache.removeFirst()
             }
         }
     }
+    
     return count
+    
 }
