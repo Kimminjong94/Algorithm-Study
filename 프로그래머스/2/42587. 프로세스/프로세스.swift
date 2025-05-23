@@ -2,21 +2,26 @@ import Foundation
 
 func solution(_ priorities:[Int], _ location:Int) -> Int {
     var p = priorities
+    var l = location
     var result = 0
-    var location = location
-    while p.count != 0 {
-        location -= 1
-        let max = p.max()!
-        let l = p[0]
-        if l != max {
-            p.append(l)
+    
+    while p.count > 0 {
+        let max = p.max() ?? 0
+        let pZero = p[0]
+        l -= 1
+
+        if max != pZero {
+            p.append(pZero)
             p.removeFirst()
-            if location < 0 { location = p.count - 1}
-        }
-        else {
+
+            if l < 0 {
+                l = p.count - 1
+            }
+        } else {
             result += 1
             p.removeFirst()
-            if location < 0 { break }
+
+            if l < 0 { break }
         }
     }
     return result
