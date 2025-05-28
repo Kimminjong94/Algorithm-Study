@@ -3,23 +3,24 @@ import Foundation
 func solution(_ numbers:[Int], _ target:Int) -> Int {
     
     var count = 0
-
-
-    func dfs(nextNumber: Int, sum: Int) {
+    
+    func dfs(_ index: Int, _ sum: Int) {
         
-        guard nextNumber != numbers.count else {
-            if sum == target {
-                count += 1
-            }
+        if index == numbers.count - 1 && sum == target {
+            count += 1
             return
         }
         
-        dfs(nextNumber: nextNumber + 1, sum: sum + numbers[nextNumber])
-        dfs(nextNumber: nextNumber + 1, sum: sum - numbers[nextNumber])
-    
         
+        guard index + 1 < numbers.count else { return }
+        
+        
+        dfs(index + 1, sum + numbers[index + 1])
+        dfs(index + 1, sum - numbers[index + 1])
     }
-    dfs(nextNumber: 0, sum: 0)
-
+    
+    
+    dfs(-1, 0)
+    
     return count
 }
