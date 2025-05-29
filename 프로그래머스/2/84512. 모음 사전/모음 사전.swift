@@ -17,3 +17,4 @@ func solution(_ word:String) -> Int {
     dfs("")
     return result.firstIndex(of: word)!
 }
+
