@@ -1,28 +1,35 @@
 import Foundation
 
-func solution(_ topping:[Int]) -> Int {
+
+func solution(_ topping: [Int]) -> Int {
     var answer = 0
-    var leftDict = [Int: Int]()
-    var rightDict = [Int: Int]()
-
-    // 처음엔 모든 토핑을 오른쪽에 넣어둠
+    
+    // 오른쪽에 있는 토핑 종류 카운트
+    var rightCount: [Int: Int] = [:]
     for t in topping {
-        rightDict[t, default: 0] += 1
+        rightCount[t, default: 0] += 1
     }
-
-    for t in topping {
-        // 왼쪽으로 옮기기
-        leftDict[t, default: 0] += 1
-        rightDict[t]! -= 1
-        if rightDict[t]! == 0 {
-            rightDict.removeValue(forKey: t)
+    
+    // 왼쪽은 Set으로 관리
+    var leftSet = Set<Int>()
+    
+    for i in 0..<topping.count - 1 {
+        let t = topping[i]
+        
+        // 왼쪽에 추가
+        leftSet.insert(t)
+        
+        // 오른쪽에서 빼기
+        rightCount[t]! -= 1
+        if rightCount[t]! == 0 {
+            rightCount.removeValue(forKey: t)
         }
-
-        // 두 쪽의 서로 다른 토핑 수 비교
-        if leftDict.count == rightDict.count {
+        
+        // 서로 다른 원소 개수 비교
+        if leftSet.count == rightCount.count {
             answer += 1
         }
     }
-
+    
     return answer
 }
