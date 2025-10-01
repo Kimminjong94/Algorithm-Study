@@ -1,67 +1,56 @@
-let nm = readLine()!.split(separator: " ").map{Int(String($0))!}
+let MN = readLine()!.split(separator: " ").map {Int($0)!}
+let grid = (0..<MN[1]).map {_ in readLine()!.split(separator: " ").map {Int($0)!}}
+var visited = Array(repeating: Array(repeating: false, count: MN[0]), count: MN[1])
+var location : [(Int, Int, Int)] = []
+var day_count = 0
+var isNotCooked = true
 
-//정점의 갯수로 배열을 만듬
-var graph:[[Int]] = Array(repeating: [], count: nm[1])
-var visited:[[Bool]] = Array(repeating: Array(repeating: false, count: nm[0]), count: nm[1])
-
-for i in 0..<nm[1] {
-    let input = readLine()!.split(separator: " ").map{Int(String($0))!}
-    graph[i].append(contentsOf: input)
+for i in 0..<grid.count {
+    for j in 0..<grid[i].count {
+        if grid[i][j] == 1 { location.append((i, j, 0))
+        } else if grid[i][j] == -1 {
+            visited[i][j] = true }
+    }
 }
 
-
-// 이동 방향 (상, 하, 좌, 우)
-let dx = [0, 0, -1, 1]
-let dy = [-1, 1, 0, 0]
-
-func bfs(_ xy: [(Int, Int)]) -> Int {
-    var queue = xy
+func bfs() {
+    var queue: [(Int, Int, Int)] = location
     var index = 0
-    var daysPassed = 1
-
+    let dx = [-1, 0, 1, 0]
+    let dy = [0, -1, 0, 1]
     
     while index < queue.count {
-        let nowNode = queue[index]
+        let (x, y, z) = queue[index]
         index += 1
-        visited[nowNode.0][nowNode.1] = true
+        day_count = z
+        visited[x][y] = true
         
         for i in 0..<4 {
-            let nextX = nowNode.0 + dx[i]
-            let nextY = nowNode.1 + dy[i]
+            let nx = x + dx[i]
+            let ny = y + dy[i]
             
-            if nextX >= 0, nextY >= 0, nextX < nm[1], nextY < nm[0], graph[nextX][nextY] == 0, !visited[nextX][nextY] {
-                graph[nextX][nextY] = graph[nowNode.0][nowNode.1] + 1
-                daysPassed = graph[nowNode.0][nowNode.1] + 1
-                visited[nextX][nextY] = true
-                queue.append((nextX, nextY))
+            if nx >= 0 && nx < MN[1] && ny >= 0 && ny < MN[0] && grid[nx][ny] == 0 && !visited[nx][ny] {
+                queue.append((nx, ny, z + 1))
+                visited[nx][ny] = true
             }
         }
     }
-
-    for row in graph {
-        if row.contains(0) {
-            return -1
-        }
-    }
-
-    
-    return daysPassed - 1
+   
 }
 
-func solution() {
-    
-    var coor = [(Int, Int)]()
 
-    for i in 0..<nm[1] {
-        for j in 0..<nm[0] {
-            if graph[i][j] == 1 {
-                coor.append((i, j))
-            }
+bfs()
+for i in 0..<visited.count {
+    for j in 0..<visited[i].count {
+        if visited[i][j] == false {
+            isNotCooked = false
+            break
         }
     }
-    
-    let answer = bfs(coor)
-    print(answer)
 }
 
-solution()
+if isNotCooked {
+    print(day_count)
+} else {
+    print(-1)
+}
