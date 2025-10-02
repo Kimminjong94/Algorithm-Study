@@ -1,45 +1,40 @@
-let n = Int(readLine()!)!
-var arr = [Int](repeating: 0, count: n + 1)
-
-for i in 1...n {
-    arr[i] = Int(readLine()!)!
+let N = Int(readLine()!)!
+var arr = [Int](repeating: 0, count: N)
+for i in 0..<N {
+arr[i] = Int(readLine()!)!
 }
 
-var visited = [Bool](repeating: false, count: n + 1)
-var finished = [Bool](repeating: false, count: n + 1)
-var result = Set<Int>()
+var visited = [Bool](repeating: false, count: N)
+var finished = [Bool](repeating: false, count: N)
+var result = [Int]()
 
-func dfs(_ start: Int, _ path: inout [Int]) {
-    visited[start] = true
-    path.append(start)
+func dfs(_ v: Int) {
+    visited[v] = true
+    let next = arr[v] - 1
     
-    let next = arr[start]
     if !visited[next] {
-        dfs(next, &path)
+        dfs(next)
     } else if !finished[next] {
-        // 사이클 발견
-        if let idx = path.firstIndex(of: next) {
-            for i in idx..<path.count {
-                result.insert(path[i])
-            }
-        }
+        var t = next
+        repeat {
+            result.append(t + 1)
+            t = arr[t] - 1
+        } while t != next
     }
     
-    path.removeLast()
-    finished[start] = true
+    finished[v] = true
+    
+    
 }
 
-for i in 1...n {
+for i in 0..<N {
     if !visited[i] {
-        var path = [Int]()
-        dfs(i, &path)
+        dfs(i)
     }
 }
 
-
-
-let answer = result.sorted()
-print(answer.count)
-for num in answer {
+result.sort()
+print(result.count)
+for num in result {
     print(num)
 }
