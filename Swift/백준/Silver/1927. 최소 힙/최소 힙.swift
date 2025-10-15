@@ -1,50 +1,62 @@
-let N = Int(readLine()!)!
-var heap = MinHeap()
-
-for _ in 0..<N {
-    let input = Int(readLine()!)!
-    if input == 0 {
-        print(heap.remove())
-    } else {
-        heap.insert(input)
-    }
-}
+import Foundation
 
 struct MinHeap {
-    var heap: [Int] = []
-    
-    mutating func insert(_ x: Int) {
-        heap.append(x)
-        var i = heap.count - 1
-        while i > 0 {
-            let parent = (i - 1) / 2
-            if heap[parent] <= heap[i] { break }
-            heap.swapAt(i, parent)
-            i = parent
+    private var heap = [Int]()
+
+    var isEmpty: Bool { heap.isEmpty }
+
+    mutating func insert(_ value: Int) {
+        heap.append(value)
+        var index = heap.count - 1
+        while index > 0 {
+            let parent = (index - 1) / 2
+            if heap[parent] <= heap[index] { break }
+            heap.swapAt(parent, index)
+            index = parent
         }
     }
-    
-    mutating func remove() -> Int {
-        if heap.isEmpty { return 0 }
-        if heap.count == 1 { return heap.removeLast() }
-        
-        let minVal = heap[0]
+
+    mutating func pop() -> Int {
+        guard !heap.isEmpty else { return 0 }
+        if heap.count == 1 {
+            return heap.removeFirst()
+        }
+
+        let minValue = heap[0]
         heap[0] = heap.removeLast()
-        
-        var i = 0
+        var index = 0
+
         while true {
-            let left = i * 2 + 1, right = i * 2 + 2
-            var smallest = i
+            let left = index * 2 + 1
+            let right = index * 2 + 2
+            var smallest = index
+
             if left < heap.count && heap[left] < heap[smallest] {
                 smallest = left
             }
             if right < heap.count && heap[right] < heap[smallest] {
                 smallest = right
             }
-            if smallest == i { break }
-            heap.swapAt(i, smallest)
-            i = smallest
+            if smallest == index { break }
+
+            heap.swapAt(index, smallest)
+            index = smallest
         }
-        return minVal
+        return minValue
     }
 }
+
+let N = Int(readLine()!)!
+var heap = MinHeap()
+var result = ""
+
+for _ in 0..<N {
+    let x = Int(readLine()!)!
+    if x == 0 {
+        result += "\(heap.pop())\n"
+    } else {
+        heap.insert(x)
+    }
+}
+
+print(result)
