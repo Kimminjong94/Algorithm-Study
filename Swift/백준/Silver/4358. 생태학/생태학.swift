@@ -1,18 +1,17 @@
 import Foundation
 
-var arr:[String:Int] = [:]
-var totalTrees = 0
+var dict = [String: Double]()
 
-while let input = readLine(), !input.isEmpty {
-    totalTrees += 1
-    arr[input, default: 0] += 1
+while true {
+    guard let input = readLine(), !input.isEmpty else {
+        break
+    }
+    dict[input, default: 0] += 1
 }
 
-let sortedKeys = arr.keys.sorted()
-
-for key in sortedKeys {
-     let count = arr[key]!
-    let percentage = Double(count) / Double(totalTrees) * 100
-    // 소수점 4자리까지 출력
-    print("\(key) \(String(format: "%.4f", percentage))")
+let valueSum = dict.values.reduce(0, +)
+let sortedDic = dict.sorted { $0.key < $1.key }
+for (key, value) in sortedDic {
+    let percent = (value / valueSum) * 100
+    print("\(key) \(String(format: "%.4f", percent))")
 }
