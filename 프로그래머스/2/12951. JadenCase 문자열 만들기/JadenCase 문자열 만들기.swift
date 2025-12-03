@@ -1,20 +1,22 @@
+import Foundation
+
 func solution(_ s: String) -> String {
     var result = ""
-    var isFirstChar = true
-    
-    for char in s {
-        if char == " " {
-            result.append(char)
-            isFirstChar = true
+    var isStart = true
+
+    for ch in s {
+        if ch == " " {
+            result.append(" ")
+            isStart = true
         } else {
-            if isFirstChar {
-                result.append(char.uppercased())
+            if isStart {
+                result.append(ch.uppercased())
+                isStart = false
             } else {
-                result.append(char.lowercased())
+                result.append(ch.lowercased())
             }
-            isFirstChar = false
         }
     }
-    
+
     return result
 }
