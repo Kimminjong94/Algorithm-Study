@@ -1,25 +1,16 @@
-import Foundation
+let K = Int(readLine()!)!
 
-let N = Int(readLine()!)!
-var numbers = [Int]()
+var result = [Int]()
 
-
-for _ in 0..<N {
-    let num = Int(readLine()!)!
-    numbers.append(num)
-}
-
-var answer:[Int] = [numbers[0]]
-
-
-for i in 1..<numbers.count {
-        
-    if numbers[i] == 0 {
-        answer.removeLast()
+for _ in 0..<K {
+    let input = Int(readLine()!)!
+    
+    if input == 0 {
+        result.removeLast()
     } else {
-        answer.append(numbers[i])
+        result.append(input)
     }
     
 }
 
-print(answer.isEmpty ? 0 : answer.reduce(0, +))
+print(result.reduce(0, +))
