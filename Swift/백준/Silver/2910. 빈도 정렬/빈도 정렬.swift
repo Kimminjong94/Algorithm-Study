@@ -1,27 +1,33 @@
-let NC = readLine()!.split(separator: " ").map { Int($0)! }
+import Foundation
+
+let NC = readLine()!.split(separator: " ").map {Int($0)!}
 let N = NC[0]
-let _ = NC[1]
+let C = NC[1]
 
-let message = readLine()!.split(separator: " ").map { Int($0)! }
-var firstIndex: [Int: Int] = [:]
+let arr = readLine()!.split(separator: " ").map {Int($0)!}
+
 var countDict: [Int: Int] = [:]
+var orderDict: [Int: Int] = [:]
 
-for (index, num) in message.enumerated() {
-    if firstIndex[num] == nil {
-        firstIndex[num] = index
-    }
+for (i, num) in arr.enumerated() {
     countDict[num, default: 0] += 1
-}
-
-let sorted = message.sorted {
-    let freqA = countDict[$0]!
-    let freqB = countDict[$1]!
     
-    if freqA == freqB {
-        return firstIndex[$0]! < firstIndex[$1]!
-    } else {
-        return freqA > freqB
+    if orderDict[num] == nil {
+        orderDict[num] = i
     }
 }
 
-print(sorted.map { String($0) }.joined(separator: " "))
+let sorted = countDict.keys.sorted {
+    if countDict[$0]! == countDict[$1]! {
+        return orderDict[$0]! < orderDict[$1]!
+    }
+    return countDict[$0]! > countDict[$1]!
+}
+
+var result: [Int] = []
+
+for num in sorted {
+    result.append(contentsOf: Array(repeating: num, count: countDict[num]!))
+}
+
+print(result.map { String($0) }.joined(separator: " "))
