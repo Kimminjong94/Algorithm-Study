@@ -1,30 +1,25 @@
-let HW = readLine()!.split(separator: " ").map {Int($0)!}
-let height = HW[0]
-let width = HW[1]
-var answerArray:[[Int]] = []
+import Foundation
 
-for _ in 0..<height {
-    let input = Array(readLine()!)
-    var arr = [Int]()
+let input = readLine()!.split(separator: " ").map { Int($0)! }
+let H = input[0]
+let W = input[1]
+
+for _ in 0..<H {
+    let row = Array(readLine()!)
+    var result = Array(repeating: -1, count: W)
     
-    for i in input {
-        if i == "c" {
-            arr.append(0)
+    var lastCloud = -1
+    
+    for j in 0..<W {
+        if row[j] == "c" {
+            lastCloud = j
+            result[j] = 0
         } else {
-            arr.append(-1)
+            if lastCloud != -1 {
+                result[j] = j - lastCloud
+            }
         }
     }
-    answerArray.append(arr)
-}
-
-for i in 0..<answerArray.count {
-    for j in 0..<answerArray[i].count - 1 {
-        if answerArray[i][j] >= 0 && answerArray[i][j + 1] == -1 {
-            answerArray[i][j + 1] = answerArray[i][j] + 1
-        }
-    }
-}
-
-for i in answerArray {
-    print(i.map(String.init).joined(separator: " "))
+    
+    print(result.map { String($0) }.joined(separator: " "))
 }
